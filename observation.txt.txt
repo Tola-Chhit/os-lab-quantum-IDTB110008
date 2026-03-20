@@ -1,0 +1,40 @@
+  GNU nano 7.2                       observations.txt *
+
+Level 3 Observations:
+
+- Inventory did not end at 0. Example run ended at 76.
+- Errors appeared: "[: : integer expression expected".
+- Several transactions failed with "Transaction Failed: Not enough inventory!".
+- Each run produced different results (sometimes 76, sometimes 83, etc.).
+- This confirms the race condition exploit: concurrent bots corrupted inventory.
+Level 4 Observations:
+- Inventory consistently ended at 0 after swarm.
+- No errors appeared during execution.
+- All transactions logged successfully in sales.log.
+- Mutex patch with flock prevented race condition.
+Level 5 Observations:
+- Red Team swarm executed against partner’s script.
+- Inventory remained consistent at 100 after swarm.
+- Transactions were rejected cleanly with “Not enough inventory!” messages.
+- This demonstrates the mutex patch prevented race condition errors and preserved da>
+## Level 6 Observation
+
+A shared directory `drop_zone` was created and the sticky bit was applied using `chm>
+The directory permissions show `drwxrwxrwt`, confirming the sticky bit is active.
+
+Key findings:
+- Users can create files in the shared directory.
+- When attempting to delete a file owned by another user, the operation is blocked w>
+- Each user can still delete their own files successfully.
+
+This demonstrates that the sticky bit protects files in shared directories by ensuri>
+## Level 7 Observation
+
+Final assessment confirms all patches from Levels 1–6 are working together:
+
+- Mutex patch prevented race condition errors under swarm attack.
+- Inventory remained consistent with clean “Transaction Failed” messages.
+- Sticky bit protection blocked deletion of another user’s file.
+- All security measures worked together without corruption or errors.
+
+<d across all levels.
